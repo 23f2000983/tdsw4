@@ -1,29 +1,30 @@
-name: Daily Commit Workflow for 23f2000983@ds.study.iitm.ac.in
+name: Daily Repository Update
 
 on:
   schedule:
-    - cron: '30 11 * * *'
+    - cron: '30 11 * * *'  # Runs at 11:30 UTC (5:00 PM IST)
   workflow_dispatch:
 
 jobs:
-  update_repo_email:
-    name: Repository Update for 23f2000983@ds.study.iitm.ac.in
+  create-daily-commit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Ensure the action has write permissions
 
     steps:
-      - name: Checkout repository with email 23f2000983@ds.study.iitm.ac.in
-        uses: actions/checkout@v4
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
-      - name: Configure Git with email 23f2000983@ds.study.iitm.ac.in
+      - name: Setup Git with 23f2000983@ds.study.iitm.ac.in
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "23f2000983@ds.study.iitm.ac.in"
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "23f2000983@ds.study.iitm.ac.in"
 
-      - name: Create commit with email 23f2000983@ds.study.iitm.ac.in
+      - name: Create and commit daily update
         run: |
-          echo "Commit timestamp: $(date)" > commit-log.txt
-          git add commit-log.txt
-          git commit -m "Automated commit for 23f2000983@ds.study.iitm.ac.in"
-          git push
+          echo "Update ran at $(date)" >> update.log  # Using shell date to append to log
+          git add update.log
+          git commit -m "Daily automated update $(date)"
+          git push origin main
