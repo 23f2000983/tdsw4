@@ -1,30 +1,22 @@
-name: Daily Repository Update
+name: Daily Commit
 
 on:
   schedule:
-    - cron: '30 11 * * *'  # Runs at 11:30 UTC (5:00 PM IST)
-  workflow_dispatch:
+    - cron: '30 12 * * *'  
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   create-daily-commit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Ensure the action has write permissions
-
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Setup Git with 23f2000983@ds.study.iitm.ac.in
+      - name: Create daily commit (23f2000983@ds.study.iitm.ac.in)
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "23f2000983@ds.study.iitm.ac.in"
-
-      - name: Create and commit daily update
-        run: |
-          echo "Update ran at $(date)" >> update.log  # Using shell date to append to log
-          git add update.log
-          git commit -m "Daily automated update $(date)"
-          git push origin main
+          echo "Daily update $(date)" >> daily-update.txt
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add daily-update.txt
+          git commit -m "Daily commit"
+          git push
