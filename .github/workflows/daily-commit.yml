@@ -1,30 +1,29 @@
-name: Daily Repository Update
+name: Daily Commit Workflow for 23f2000983@ds.study.iitm.ac.in
 
 on:
   schedule:
-    - cron: '30 11 * * *'  # Runs at 11:30 UTC (5:00 PM IST)
+    - cron: '30 11 * * *'
   workflow_dispatch:
 
 jobs:
-  create-daily-commit:
+  update_repo_email:
+    name: Repository Update for 23f2000983@ds.study.iitm.ac.in
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Ensure the action has write permissions
+      contents: write
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+      - name: Checkout repository with email 23f2000983@ds.study.iitm.ac.in
+        uses: actions/checkout@v4
 
-      - name: Setup Git with 23f2000983@ds.study.iitm.ac.in
+      - name: Configure Git with email 23f2000983@ds.study.iitm.ac.in
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "23f2000983@ds.study.iitm.ac.in"
+          git config user.name "GitHub Actions"
+          git config user.email "23f2000983@ds.study.iitm.ac.in"
 
-      - name: Create and commit daily update
+      - name: Create commit with email 23f2000983@ds.study.iitm.ac.in
         run: |
-          python -c "from datetime import datetime; print(datetime.now())" >> update.log
-          git add update.log
-          git commit -m "Daily automated update $(date)"
-          git push origin main
+          echo "Commit timestamp: $(date)" > commit-log.txt
+          git add commit-log.txt
+          git commit -m "Automated commit for 23f2000983@ds.study.iitm.ac.in"
+          git push
