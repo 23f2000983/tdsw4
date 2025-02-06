@@ -2,7 +2,7 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '30 12 * * *'  
+    - cron: '30 1 * * *'  # Runs at 1:30 UTC every day
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -12,11 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Git with custom email
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "23f2000983@ds.study.iitm.ac.in"
+
       - name: Create daily commit (23f2000983@ds.study.iitm.ac.in)
         run: |
           echo "Daily update $(date)" >> daily-update.txt
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
           git add daily-update.txt
           git commit -m "Daily commit"
-          git push
+          git push origin main
